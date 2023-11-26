@@ -1,0 +1,92 @@
+﻿@model EXAM.ViewModels.BookViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Books</h1>
+<form asp-controller="Books" asp-action="Index" method="post">
+    <p>
+        <div class="d-flex">
+            <div class="form-outline search-input">
+                <input type="text" class="form-control input" placeholder="Search books"
+                       name="SearchString" value="@ViewData["CurrentSearch"]" />
+            </div>
+            <button type="submit" value="Search" class="btn btn-outline-dark ml-2 mr-2">
+                <i class="fa-brands fa-searchengin"></i>
+            </button>
+
+            <select asp-for="Category" asp-items="Model.Categories" class="form-select" aria-label="Select group">
+                <option>All</option>
+            </select>
+        </div>
+    </p>
+</form>
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a class="text-dark" asp-route-sortorder="@ViewData["IdSort"]">
+                    @Html.DisplayName("Id") <i class="fa fa-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a class="text-dark" asp-route-sortorder="@ViewData["NameSort"]">
+                    @Html.DisplayName("Name") <i class="fa fa-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a class="text-dark" asp-route-sortorder="@ViewData["DescriptionSort"]">
+                    @Html.DisplayName("Description") <i class="fa fa-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a class="text-dark" asp-route-sortorder="@ViewData["CategoryIdSort"]">
+                    @Html.DisplayName("CategoryId") <i class="fa fa-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a class="text-dark" asp-route-sortorder="@ViewData["PriceSort"]">
+                    @Html.DisplayName("Price") <i class="fa fa-sort"></i>
+                </a>
+            </th>
+            <th>
+                <a class="text-dark" asp-route-sortorder="@ViewData["authorIdSort"]">
+                    @Html.DisplayName("AuthorId") <i class="fa fa-sort"></i>
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Books) {
+        <tr>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id" >
+                        @Html.DisplayFor(modelItem => item.Id)
+                </a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AuthorId)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
