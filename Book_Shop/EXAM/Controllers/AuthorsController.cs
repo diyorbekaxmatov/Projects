@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EXAM.Data;
 using EXAM.Models;
-using Microsoft.Data.SqlClient;
 
 namespace EXAM.Controllers
 {

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EXAM.Data;
 using EXAM.Models;
 using EXAM.ViewModels;
-using Microsoft.Data.SqlClient;
+
 
 namespace EXAM.Controllers
 {
@@ -68,7 +64,7 @@ namespace EXAM.Controllers
             
         [HttpPost]
         public async Task<IActionResult> Index(string? searchString, string category)
-        {
+        {   
             if (searchString != null && category.Count() == 1)
             {
                 int categoryId = int.Parse(category);
@@ -139,7 +135,22 @@ namespace EXAM.Controllers
             }
             else
             {
-                return View(_context.Books.ToList());
+                var books = await _context.Books
+                    .Include(b => b.Category)
+                    .ToListAsync();
+
+                var categories = await _context.Categories.Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                }).ToListAsync();
+
+                var bookVM = new BookViewModel()
+                {
+                    Books = books,
+                    Categories = categories
+                };
+                return View(bookVM);
             }
         }
 
